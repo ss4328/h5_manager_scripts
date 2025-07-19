@@ -1,0 +1,18 @@
+(h5mgr) ss@Mac h5_manager_scripts % h5manager convert example_img_dir/seefood/test/hot_dog \             
+                  --output tmp/hotdog_64 --dim 64
+Converting example_img_dir/seefood/train/hot_dog → tmp/hotdog_64.h5 (dim=64)
+
+
+(h5mgr) ss@Mac h5_manager_scripts % h5manager convert example_img_dir/seefood/test/not_hot_dog \
+                  --output tmp/nothotdog_64 --dim 64
+Converting example_img_dir/seefood/train/not_hot_dog → tmp/hotdog_64.h5 (dim=64)
+
+
+(h5mgr) ss@Mac h5_manager_scripts % h5manager merge --inputs tmp/hotdog_64.h5,tmp/nothotdog_64.h5 \
+                --output tmp/merged
+Merging tmp/hotdog_64.h5,tmp/nothotdog_64.h5 → tmp/merged.h5
+
+
+(h5mgr) ss@Mac h5_manager_scripts % h5manager visualize tmp/merged.h5
+Visualizing tmp/merged.h5
+^C%    
