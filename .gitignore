@@ -1,0 +1,63 @@
+###############################################################################
+#   macOS / Windows OS files
+###############################################################################
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+###############################################################################
+#   Python artefacts & virtual‑envs
+###############################################################################
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.dylib
+
+# Virtual‑env folders
+.env
+.venv
+env/
+venv/
+.hatch/
+
+###############################################################################
+#   Packaging / build outputs
+###############################################################################
+build/
+dist/
+wheelhouse/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+*.log            # build logs
+
+###############################################################################
+#   Test & coverage outputs
+###############################################################################
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+nosetests.xml
+
+###############################################################################
+#   IDE / editor settings
+###############################################################################
+.vscode/
+.idea/
+*.iml
+
+###############################################################################
+#   Large example data (kept in repo but ignore generated files)
+###############################################################################
+tmp/
+examples/images/**/*.h5
+
+#   Allow tiny reference images (remove ‘!’ if you also want these ignored)
+!examples/images/*.jpg
