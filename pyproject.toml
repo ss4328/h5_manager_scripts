@@ -1,0 +1,44 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "h5manager"
+version = "0.1.0"
+description = "CLI utilities to convert, merge and visualise image datasets stored in HDF5"
+readme = "README.md"
+authors = [{ name="Shivansh Suhane", email="you@example.com" }]
+license = { text = "MIT" }
+requires-python = ">=3.9"
+keywords = ["hdf5", "computer-vision", "dataset"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Topic :: Multimedia :: Graphics",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "h5py>=3",
+  "numpy>=1.22",
+  "Pillow>=10",
+  "typer>=0.9",
+  "PyYAML>=6",
+  "matplotlib",
+]
+
+[project.scripts]
+h5manager = "h5manager.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/yourname/h5manager"
+Issues   = "https://github.com/yourname/h5manager/issues"
+
+[tool.hatch.build.targets.sdist]
+exclude = ["examples/images/**"]          # keep source dist lean
+
+[tool.hatch.build.targets.wheel]
+include = ["h5manager/*.yaml"]            # ship default‑config file if you add one
+
+[tool.hatch.version]
+path = "h5manager/__init__.py"            # so future bumps are one‑liner

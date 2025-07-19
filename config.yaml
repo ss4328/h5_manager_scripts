@@ -1,0 +1,7 @@
+image_dim: 300          # default resize dimension
+output_dir: ~/datasets  # where to drop generated .h5 files
+dtype: int16            # dtype to store pixel data
+visualize:
+  figsize: [12, 8]      # inches
+merge:
+  chunk_size: 1024
