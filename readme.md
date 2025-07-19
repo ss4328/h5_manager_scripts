@@ -1,52 +1,79 @@
-# Exploring h5 files
+# H5 Manager
+H5 Manager is a tiny, battery‑included toolkit that turns folders of images into tidy HDF5 datasets, stitches those datasets together, and lets you flip through them in seconds — all from a single command‑line interface.
+
+## Background
+
+While experimenting with computer‑vision side projects I kept bouncing between raw JPEG folders and different HDF5 ad‑hoc scripts. Each time I forgot a flag or lost the code snippet. H5 Manager is my attempt to freeze that knowledge into a reusable, well‑tested package:
+
+* Convert an arbitrary image tree into a single images dataset (uint8 | int16) with one flag.
+* Merge any number of compatible .h5 files (optionally shuffled).
+* Visualise the first few or page through the whole set with arrow keys.
+* Configure defaults in ~/.h5manager/config.yaml or an env var.
+* Ships tiny example data & pytest suite so CI and newcomers can try it instantly.
+
+If you’ve ever asked yourself…
+
+“What even is an HDF5 file and why should I care?”
+“Why does storing 10 k images in folders grind my dataloader?”
+“Which one‑liner will regenerate this dataset six months from now?”
+
+…then this repo is for you.
 
 
-## Quick start
+## Installation
 
 ```bash
-pip install h5manager
+git@github.com:ss4328/h5_manager_scripts.git
+pip install -e 
 ```
 
-### Convert
+## CLI Quickstart 
+
 ```bash
-h5manager convert example_img_dir/seefood/test/hot_dog \
+# 1 Convert two image folders (resize to 64×64)
+h5manager convert example_img_dir/seefood/test/hot_dog      \
                --output tmp/hotdog_64 --dim 64
-```
 
-```bash
-h5manager convert example_img_dir/seefood/test/not_hot_dog \
+h5manager convert example_img_dir/seefood/test/not_hot_dog  \
                --output tmp/nothotdog_64 --dim 64
-```
 
-### Merge
-```bash
+# 2 Merge them into one dataset
 h5manager merge --inputs tmp/hotdog_64.h5,tmp/nothotdog_64.h5 \
                 --output tmp/merged
-```
 
-### Browse
-```bash
+# 3 Browse interactively (p/n to page)
 h5manager visualize tmp/merged.h5
 ```
 
+Screenshots below show the pager in action — notice the mix of classes once you hit →.
+<img width="1214" height="971" alt="hotfdog_64" src="https://github.com/user-attachments/assets/fb085f35-9f1f-4686-a9b5-0cd9853dfb14" />
+<img width="1198" height="961" alt="nothotdog_64" src="https://github.com/user-attachments/assets/c4589d97-8720-4a82-a382-c4f3eb4ee7af" />
+<img width="1207" height="964" alt="merged" src="https://github.com/user-attachments/assets/1a49db4c-8275-4078-ad10-b5509e92c9e3" />
 
-## Background
-I started this project because I felt there were several things about h5 files I didn't understand.
-- What are h5 files?
-- Why can't we just use normal directories? What are the benefits of h5 over directories. 
-- How to make a h5 from a directory?
+## FAQ
 
-I went into a rabbit hole of translating dirs<->h5s frequently, learning/forgetting information on each iteration. So I got frustrated, and created this repo to formalize the code/information.
+Why not keep raw folders?
+* HDF5 offers compression, contiguous storage, random access, and zero filesystem overhead per image. Large CV datasets load 3‑10 × faster.
 
-Here are my answers to the above questions: 
-- HDF5 is a machine-independent data format and software library for representing scientific data. The HDF5 software was developed at the National Center for Supercomputing Applications, by the Software Development Group, the same group that developed the Mosaic browser, at the University of Illinois at Champaign-Urbana. The HDF5 is also an open source file format. It supports large, complex, heterogeneous data. HDF5 uses a "file directory" like structure that allows you to organize data within the file in many different structured ways, as you might do with files on your computer. The HDF5 format also allows for embedding of metadata making it self-describing. 
-- Normal directories take up more space, are ineffient for iteration, doesn't support parallel I/O, random Access, are non-heterogeneous (for eg: images in hot-dog-not-hot-dog project have different dimentions and hence data can't be directly fed to a neural network)
-- One way to accomplish this is to read each image in dir, feed it to a preprocessing function for dimentional standardization, then parsed to a global numpy array which could then be used to create a h5 file
+Does this replace TFRecord / LMDB?
+* No – it’s a lightweight alternative when you prefer pure‑Python tooling and the HDF5 ecosystem.
 
+Can I store labels?
+* For now the CLI is image‑only; add extra datasets (labels, bboxes) via h5py or open an issue for a feature request.
 
-I tried to implement the above approach in the h5manager.
+## Contributing & roadmap
 
+1. Shrink example dataset in examples/images/ (< 1 MB).
+2. Add Streamlit GUI (h5manager gui).
+3. Lazy / chunked writer for huge datasets.
+Pull requests & bug reports are very welcome!
 
-##Credits
-- Here's an interesting article discussing the hdf5 in detail. I used it to read up on the theory: https://www.neonscience.org/about-hdf5
-- TomaczGolan for the mergeh5.py file
+## Acknowledgements
+
+- National Center for Supercomputing Applications — creators of HDF5.
+- Tomacz Golan — original mergeh5.py inspiration.
+- [NEON Science blog](https://www.neonscience.org/resources/learning-hub/tutorials/about-hdf5) — approachable HDF5 primer.
+
+Released under the MIT License.   © 2025 Shivansh Suhane
+
+  
